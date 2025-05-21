@@ -7,15 +7,15 @@
 	using namespace std;
 	class Marcas {
 		//atributos
-	private: string m;
+	private: string marc;
 		   int id_m = 0;
 	
 	public:
 		//constructor
 		Marcas() {}
 		Marcas(int id_marca, string marca) {
-			marca = m;
-			id_marca = id_m;
+			marc=marca;
+			id_m=id_marca;
 		}
 		// SET
 //		void setId_Marca(int idm) { id_marca = idm; }
@@ -27,12 +27,13 @@
 
 		//metodos
 		void crear() {
+
 			int q_estado = 0;
 			ConexionBD cn = ConexionBD();
 			cn.abrir_conexion();
 			if (cn.getConector()) {
 				string id_mm = to_string(id_m);
-				string consulta = "INSERT INTO puesto(id_puesto, puesto) VALUES (" + id_mm + ",'" + m + "');";
+				string consulta = "INSERT INTO marca(id_marca, marca) VALUES (" + id_mm + ",'"+marc+"');";
 				const char* c = consulta.c_str();
 				q_estado = mysql_query(cn.getConector(), c);
 
@@ -58,9 +59,9 @@
 			cn.abrir_conexion();
 
 			if (cn.getConector() != nullptr) {
-				cout << "______ PUESTOS ______" << endl;
+				cout << "______ MARCAS ______" << endl;
 
-				string consulta = "SELECT id_puesto AS id, puesto FROM puesto;";
+				string consulta = "SELECT id_marca AS id, marca FROM marca;";
 				const char* c = consulta.c_str();
 				q_estado = mysql_query(cn.getConector(), c);
 				if (!q_estado) {
@@ -84,13 +85,13 @@
 			cn.abrir_conexion();
 			if (cn.getConector() != nullptr) {
 
-				string id_pt = to_string(id_m);
-				string consulta = "UPDATE puesto SET puesto = '" + m + "' WHERE id_puesto = " + id_pt;
+				string idm = to_string(id_m);
+				string consulta = "UPDATE marca SET marca = '" + marc + "' WHERE id_marca = " + idm;
 				const char* c = consulta.c_str();
 				q_estado = mysql_query(cn.getConector(), c);
 				if (!q_estado) {
 					cout << "--- Modificacion de Datos Exitoso !!!" << endl;
-				}
+				}	
 				else {
 					cout << "XXXX Consulta Fallida XXXX" << endl;
 				}
@@ -106,8 +107,8 @@
 			cn.abrir_conexion();
 			if (cn.getConector()) {
 
-				string id_pt = to_string(id_m);
-				string consulta = "delete from puesto  where id_puesto = " + id_pt + "";
+				string idm = to_string(id_m);
+				string consulta = "delete from marca  where id_marca = " + idm + "";
 
 				const char* c = consulta.c_str();
 				q_estado = mysql_query(cn.getConector(), c);
