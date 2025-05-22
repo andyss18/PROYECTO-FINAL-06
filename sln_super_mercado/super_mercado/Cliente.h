@@ -42,7 +42,29 @@ public :
 
 	
 	//metodos
-	void crear(){}
+	void crear() {
+		int q_estado;
+		ConexionBD cn = ConexionBD();
+		cn.abrir_conexion();
+		if (cn.getConector()) {
+			string t = to_string(telefono);
+			string g = to_string(genero);
+			string insert = "INSERT INTO cliente(nombres, apellidos, nit, genero, telefono, correo_electronico, fecha_ingreso) VALUES ('" + nombres + "','" + apellidos + "','" + nit + "'," + g + "," + t + ",'" + correo + "','" + fecha_ingreso + "');";
+			const char* i = insert.c_str();
+			q_estado = mysql_query(cn.getConector(), i);
+			if (!q_estado)
+				cout << "Inserción exitosa..." << endl;
+			else
+				cout << "Error al insertar..." << endl;
+		}
+		else {
+			cout << "Fallo la conexión." << endl;
+		}
+		cn.cerrar_conexion();
+	}
+
+	     
+	
 	void leer(){
 		int q_estado = 0;
 		ConexionBD cn = ConexionBD();
@@ -67,14 +89,49 @@ public :
 			cout << "XxXX Fallo la Conexion XXXX" << endl;
 		}
 		cn.cerrar_conexion();
-
-	
-	
-	
-	
+    }
+	void actualizar() {
+		int q_estado;
+		ConexionBD cn = ConexionBD();
+		cn.abrir_conexion();
+		if (cn.getConector()) {
+			string t = to_string(telefono);
+			string g = to_string(genero);
+			string id = to_string(id_cliente);
+			string update = "UPDATE cliente SET nombres='" + nombres + "', apellidos='" + apellidos + "', nit='" + nit + "', genero=" + g + ", telefono=" + t + ", correo_electronico='" + correo + "', fecha_ingreso='" + fecha_ingreso + "' WHERE id_cliente=" + id + ";";
+			const char* u = update.c_str();
+			q_estado = mysql_query(cn.getConector(), u);
+			if (!q_estado)
+				cout << "Actualización exitosa..." << endl;
+			else
+				cout << "Error al actualizar..." << endl;
+		}
+		else {
+			cout << "Fallo la conexión." << endl;
+		}
+		cn.cerrar_conexion();
 	}
-	//void actualizar(){}
+
 	//void borrar(){}
+	void borrar() {
+		int q_estado;
+		ConexionBD cn = ConexionBD();
+		cn.abrir_conexion();
+		if (cn.getConector()) {
+			string id = to_string(id_cliente);
+			string del = "DELETE FROM cliente WHERE id_cliente=" + id + ";";
+			const char* d = del.c_str();
+			q_estado = mysql_query(cn.getConector(), d);
+			if (!q_estado)
+				cout << "Eliminación exitosa..." << endl;
+			else
+				cout << "Error al eliminar..." << endl;
+		}
+		else {
+			cout << "Fallo la conexión." << endl;
+		}
+		cn.cerrar_conexion();
+	}
 
 		
 };
