@@ -100,6 +100,9 @@ public :
 			string id = to_string(id_cliente);
 			string update = "UPDATE cliente SET nombres='" + nombres + "', apellidos='" + apellidos + "', nit='" + nit + "', genero=" + g + ", telefono=" + t + ", correo_electronico='" + correo + "', fecha_ingreso='" + fecha_ingreso + "' WHERE id_cliente=" + id + ";";
 			const char* u = update.c_str();
+			cout << "QUERY: " << update << endl;
+			cout << "DEBUG MySQL Error: " << mysql_error(cn.getConector()) << endl;
+
 			q_estado = mysql_query(cn.getConector(), u);
 			if (!q_estado)
 				cout << "Actualización exitosa..." << endl;
