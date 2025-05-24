@@ -58,6 +58,9 @@
 >>>>>>> ef248b34d6dfdf594f0f813c825a6c1c14b656af
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="Proveedor.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConexionBD.h">
@@ -98,6 +101,9 @@
 =======
     <ClInclude Include="Productos.h">
 >>>>>>> ef248b34d6dfdf594f0f813c825a6c1c14b656af
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Proveedor.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
