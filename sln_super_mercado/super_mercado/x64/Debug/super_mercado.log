@@ -1,2 +1,12 @@
-﻿  Productos.cpp
-  super_mercado.vcxproj -> C:\Users\aron\Documents\Univerdidad\Universidad 2025\Programacion 1\Proyecto Final\PROYECTO-FINAL-06\sln_super_mercado\x64\Debug\super_mercado.exe
+﻿  Cliente.cpp
+  ConexionBD.cpp
+  empleado.cpp
+  Marcas.cpp
+  Persona.cpp
+  Productos.cpp
+  Proveedor.cpp
+  Puestos.cpp
+  main_puestos.cpp
+  Generando código...
+  LINK : no se encontró C:\Users\Dany Hernandez\Desktop\SUPERMERCADO\PROYECTO-FINAL-06\sln_super_mercado\x64\Debug\super_mercado.exe o no lo generó el último vínculo incremental; ejecutando vínculo completo
+  super_mercado.vcxproj -> C:\Users\Dany Hernandez\Desktop\SUPERMERCADO\PROYECTO-FINAL-06\sln_super_mercado\x64\Debug\super_mercado.exe

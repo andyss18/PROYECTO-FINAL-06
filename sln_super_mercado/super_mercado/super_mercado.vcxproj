@@ -141,6 +141,7 @@
     <ClCompile Include="Marcas.cpp" />
     <ClCompile Include="Persona.cpp" />
     <ClCompile Include="Productos.cpp" />
+    <ClCompile Include="Proveedor.cpp" />
     <ClCompile Include="Puestos.cpp" />
     <ClCompile Include="main_puestos.cpp" />
   </ItemGroup>
@@ -151,6 +152,7 @@
     <ClInclude Include="Marcas.h" />
     <ClInclude Include="Persona.h" />
     <ClInclude Include="Productos.h" />
+    <ClInclude Include="Proveedor.h" />
     <ClInclude Include="Puestos.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
