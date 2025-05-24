@@ -164,7 +164,6 @@ void menuVentas() {
         cout << "2. Leer Ventas" << endl;
         cout << "3. Actualizar Venta" << endl;
         cout << "4. Eliminar Venta" << endl;
-        cout << "5. Anular Venta" << endl;
         cout << "0. Regresar al menu principal" << endl;
         cout << "Seleccione una opcion: ";
         cin >> opcion;
@@ -182,9 +181,7 @@ void menuVentas() {
         case 4:
             venta.eliminarVenta();
             break;
-        case 5:
-            venta.anularVenta();
-            break;
+      
         case 0:
             break;
         default:

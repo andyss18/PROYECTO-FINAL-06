@@ -239,36 +239,7 @@ public:
 
         cn.cerrar_conexion();
     }
-    void anularVenta() {
-        int id_venta;
-        cout << "Ingrese ID de la venta a anular: ";
-        cin >> id_venta;
-
-        ConexionBD cn;
-        cn.abrir_conexion();
-        MYSQL* con = cn.getConector();
-
-        string consulta = "SELECT anulada FROM ventas WHERE id_venta = " + to_string(id_venta);
-        if (mysql_query(con, consulta.c_str()) == 0) {
-            MYSQL_RES* res = mysql_store_result(con);
-            MYSQL_ROW row = mysql_fetch_row(res);
-            if (row && string(row[0]) == "1") {
-                cout << "Esta venta ya está anulada.\n";
-                cn.cerrar_conexion();
-                return;
-            }
-        }
-
-        string update = "UPDATE ventas SET anulada = 1 WHERE id_venta = " + to_string(id_venta);
-        if (mysql_query(con, update.c_str()) == 0) {
-            cout << "Venta anulada correctamente.\n";
-        }
-        else {
-            cerr << "Error al anular venta: " << mysql_error(con) << endl;
-        }
-
-        cn.cerrar_conexion();
-    }
+   
 
 
 private:
