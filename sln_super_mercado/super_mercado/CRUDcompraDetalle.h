@@ -1,103 +1,154 @@
 #pragma once
-#include "ConexionBD.h"
-#include "compraDetalle.h"
-#include <mysql.h>
 #include <iostream>
+#include <vector>
+#include "compra.h"
+#include "compraDetalle.h"
+#include "ConexionBD.h"
 
-class CRUDCompraDetalle : public CompraDetalle {
+class CRUDCompraDetalle {
 public:
-    CRUDCompraDetalle() {}
-    CRUDCompraDetalle(int c, int p, string cant, double precio)
-        : CompraDetalle(c, p, cant, precio) {
-    }
-
-    bool crear() {
+    void realizarCompra() {
         ConexionBD cn;
         cn.abrir_conexion();
-        if (cn.getConector()) {
-            string query = "INSERT INTO compras_detalle(id_compra, id_producto, cantidad, precio_costo_unitario) VALUES (" +
-                to_string(id_compra) + ", " + to_string(id_producto) + ", '" + cantidad + "', " + to_string(precio_costo_unitario) + ");";
-            if (mysql_query(cn.getConector(), query.c_str()) == 0) {
-                cout << "Producto agregado al detalle de compra." << endl;
+        MYSQL* con = cn.getConector();
+
+        int id_proveedor;
+        string fecha;
+        cout << "Ingrese ID del proveedor: ";
+        cin >> id_proveedor;
+        cout << "Ingrese fecha (YYYY-MM-DD): ";
+        cin >> fecha;
+
+        string insert_compra = "INSERT INTO compras(id_proveedor, fecha_orden) VALUES (" + to_string(id_proveedor) + ", '" + fecha + "')";
+
+
+        if (mysql_query(con, insert_compra.c_str()) != 0) {
+            cerr << "Error al insertar en 'compras': " << mysql_error(con) << endl;
+            cn.cerrar_conexion();
+            return;
+        }
+
+        int id_compra = (int)mysql_insert_id(con);
+
+        vector<CompraDetalle> detalles;
+        char opcion = 's';
+        float total = 0;
+        while (opcion == 's') {
+            int id_producto, cantidad;
+            float precio_costo;
+            cout << "Ingrese ID del producto: ";
+            cin >> id_producto;
+            cout << "Ingrese cantidad: ";
+            cin >> cantidad;
+            cout << "Ingrese precio costo: ";
+            cin >> precio_costo;
+
+            total += precio_costo * cantidad;
+            detalles.push_back(CompraDetalle(id_compra, id_producto, cantidad, precio_costo));
+
+            cout << "¿Desea ingresar otro producto? (s/n): ";
+            cin >> opcion;
+        }
+
+        for (auto& d : detalles) {
+            string insert_det = "INSERT INTO compras_detalle(id_compra, id_producto, cantidad, precio_costo_unitario) VALUES(" +
+                to_string(d.id_compra) + "," + to_string(d.id_producto) + "," + to_string(d.cantidad) + "," + to_string(d.precio_costo) + ")";
+
+
+            if (mysql_query(con, insert_det.c_str()) != 0) {
+                cerr << "Error al insertar en 'compras_detalle': " << mysql_error(con) << endl;
                 cn.cerrar_conexion();
-                return true;
+                return;
             }
-            else {
-                cout << "Error al insertar detalle: " << mysql_error(cn.getConector()) << endl;
+        }
+
+        cout << "\n=========== FACTURA COMPRA ===========\n";
+        cout << "ID Compra: " << id_compra << "\tFecha: " << fecha << "\n";
+        cout << "ID Proveedor: " << id_proveedor << "\n\n";
+        cout << "PRODUCTO\n";
+        for (auto& d : detalles) {
+            cout << d.id_producto << "\tQ " << d.precio_costo << " x " << d.cantidad << "\n";
+        }
+        cout << "Total: Q " << total << "\nGracias por su compra.\n";
+
+        cn.cerrar_conexion();
+    }
+
+    void leerCompras() {
+        ConexionBD cn;
+        cn.abrir_conexion();
+        MYSQL* con = cn.getConector();
+        MYSQL_ROW row;
+        MYSQL_RES* res;
+
+        string consulta =
+            "SELECT c.id_compra, c.fecha_orden, c.no_orden_compra, p.proveedor "
+            "FROM compras c INNER JOIN proveedores p ON c.id_proveedor = p.id_proveedor";
+
+        if (mysql_query(con, consulta.c_str()) == 0) {
+            res = mysql_store_result(con);
+            cout << "\nCOMPRAS REGISTRADAS:\n";
+            while ((row = mysql_fetch_row(res))) {
+                cout << "ID Compra: " << (row[0] ? row[0] : "NULL")
+                    << ", Fecha Orden: " << (row[1] ? row[1] : "NULL")
+                    << ", No. Orden: " << (row[2] ? row[2] : "NULL")
+                    << ", Proveedor: " << (row[3] ? row[3] : "NULL") << endl;
             }
+
         }
         else {
-            cout << "Error de conexión." << endl;
+            cerr << "Error al leer compras: " << mysql_error(con) << endl;
         }
-        cn.cerrar_conexion();
-        return false;
-    }
 
-    void leer(int id_compra_param) {
-        ConexionBD cn;
-        MYSQL_ROW fila;
-        MYSQL_RES* resultado;
-        cn.abrir_conexion();
-        if (cn.getConector()) {
-            string consulta = "SELECT * FROM compras_detalle WHERE id_compra = " + to_string(id_compra_param) + ";";
-            if (!mysql_query(cn.getConector(), consulta.c_str())) {
-                resultado = mysql_store_result(cn.getConector());
-                cout << "ID | Compra | Producto | Cantidad | Precio Unitario" << endl;
-                while ((fila = mysql_fetch_row(resultado))) {
-                    cout << fila[0] << " | " << fila[1] << " | " << fila[2] << " | " << fila[3] << " | " << fila[4] << endl;
-                }
-            }
-            else {
-                cout << "Error al leer detalles." << endl;
-            }
-        }
         cn.cerrar_conexion();
     }
 
-    void actualizar(int id_detalle) {
+    void actualizarCompra() {
+        int id;
+        cout << "Ingrese ID de la compra que desea actualizar: ";
+        cin >> id;
+
+        string nueva_fecha;
+        cout << "Ingrese nueva fecha (YYYY-MM-DD): ";
+        cin >> nueva_fecha;
+
         ConexionBD cn;
         cn.abrir_conexion();
-        if (cn.getConector()) {
-            string query = "UPDATE compras_detalle SET id_producto = " + to_string(id_producto) +
-                ", cantidad = '" + cantidad + "', precio_costo_unitario = " + to_string(precio_costo_unitario) +
-                " WHERE id_compras_detalle = " + to_string(id_detalle) + ";";
-            if (mysql_query(cn.getConector(), query.c_str()) == 0) {
-                cout << "Detalle de compra actualizado correctamente." << endl;
-            }
-            else {
-                cout << "Error al actualizar detalle: " << mysql_error(cn.getConector()) << endl;
-            }
+        MYSQL* con = cn.getConector();
+
+        string update = "UPDATE compras SET fecha_orden = '" + nueva_fecha + "' WHERE id_compra = " + to_string(id);
+        if (mysql_query(con, update.c_str()) == 0) {
+            cout << "Compra actualizada exitosamente.\n";
         }
+        else {
+            cerr << "Error al actualizar: " << mysql_error(con) << endl;
+        }
+
         cn.cerrar_conexion();
     }
 
-    void eliminar(int id_detalle) {
+    void eliminarCompra() {
+        int id;
+        cout << "Ingrese ID de la compra a eliminar: ";
+        cin >> id;
+
         ConexionBD cn;
         cn.abrir_conexion();
-        if (cn.getConector()) {
-            string query = "DELETE FROM compras_detalle WHERE id_compras_detalle = " + to_string(id_detalle) + ";";
-            if (mysql_query(cn.getConector(), query.c_str()) == 0) {
-                cout << "Detalle de compra eliminado correctamente." << endl;
-            }
-            else {
-                cout << "Error al eliminar detalle: " << mysql_error(cn.getConector()) << endl;
-            }
+        MYSQL* con = cn.getConector();
+
+        string del_detalle = "DELETE FROM compras_detalle WHERE id_compra = " + to_string(id);
+        string del_compra = "DELETE FROM compras WHERE id_compra = " + to_string(id);
+
+        if (mysql_query(con, del_detalle.c_str()) == 0 && mysql_query(con, del_compra.c_str()) == 0) {
+            cout << "Compra eliminada correctamente.\n";
         }
+        else {
+            cerr << "Error al eliminar compra: " << mysql_error(con) << endl;
+        }
+
         cn.cerrar_conexion();
     }
 
-    void eliminarPorCompra(int id_compra_param) {
-        ConexionBD cn;
-        cn.abrir_conexion();
-        if (cn.getConector()) {
-            string query = "DELETE FROM compras_detalle WHERE id_compra = " + to_string(id_compra_param) + ";";
-            if (mysql_query(cn.getConector(), query.c_str()) == 0) {
-                cout << "Todos los detalles de la compra fueron eliminados." << endl;
-            }
-            else {
-                cout << "Error al eliminar detalles: " << mysql_error(cn.getConector()) << endl;
-            }
-        }
-        cn.cerrar_conexion();
-    }
+
+
 };

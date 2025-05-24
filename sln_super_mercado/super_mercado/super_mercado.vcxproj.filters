@@ -36,6 +36,7 @@
     <ClCompile Include="empleado.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="venta.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
@@ -52,6 +53,9 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="CRUDcompraDetalle.cpp">
+=======
+    <ClCompile Include="Productos.cpp">
+>>>>>>> ef248b34d6dfdf594f0f813c825a6c1c14b656af
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,6 +78,7 @@
     <ClInclude Include="empleado.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="venta.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
@@ -90,6 +95,9 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="CRUDcompraDetalle.h">
+=======
+    <ClInclude Include="Productos.h">
+>>>>>>> ef248b34d6dfdf594f0f813c825a6c1c14b656af
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

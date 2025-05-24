@@ -1,14 +1,10 @@
-#include <iostream>
-#include <string>
+ï»¿#include <iostream>
 #include "Puestos.h"
 #include "Marcas.h"
-#include "venta.h"
 #include "CRUDventaDetalle.h"
-#include "compra.h"
 #include "CRUDcompraDetalle.h"
 
 using namespace std;
-
 
 void menuVentas();
 void menuCompras();
@@ -22,12 +18,11 @@ int main() {
 
 inicio:
     system("cls");
-    cout << "======== MENU GENERAL DEL SISTEMA ========" << endl;
-    cout << "1. INGRESAR A PUESTOS" << endl;
-    cout << "2. INGRESAR A MARCAS" << endl;
-    cout << "3. INGRESAR A VENTAS" << endl;
-    cout << "4. INGRESAR A COMPRAS" << endl;
-    cout << "5. INGRESAR A BBB" << endl;
+    cout << "INGRESE UNA OPERACION" << endl;
+    cout << "1.INGRESAR A PUESTOS" << endl;
+    cout << "2.INGRESAR A MARCAS" << endl;
+    cout << "3.INGRESAR A SISTEMA DE VENTAS" << endl;
+    cout << "4.INGRESAR A SISTEMA DE COMPRAS" << endl;
     cout << "0. Salir" << endl;
     cin >> opcion1;
 
@@ -35,12 +30,12 @@ inicio:
     case 1:
         while (true) {
             system("cls");
-            cout << "===== MENU: PUESTOS =====" << endl;
+            cout << "Seleccione una Opcion:" << endl;
             cout << "1. Crear Puesto" << endl;
             cout << "2. Mostrar Puestos" << endl;
             cout << "3. Actualizar Puesto" << endl;
             cout << "4. Borrar Puesto" << endl;
-            cout << "0. Volver" << endl;
+            cout << "0. Salir" << endl;
             cout << "Ingrese una opcion: ";
             cin >> opcion2;
 
@@ -49,6 +44,7 @@ inicio:
                 system("cls");
                 cout << "Ingrese el Codigo del Puesto: ";
                 cin >> id_puesto;
+                cin.ignore();
                 cin.ignore();
                 cout << "Ingrese Nombre del Puesto: ";
                 getline(cin, puesto);
@@ -76,6 +72,7 @@ inicio:
                 system("cls");
                 cout << "Ingrese ID a Eliminar: ";
                 cin >> id_puesto;
+                cin.ignore();
                 e = Puesto(id_puesto, puesto);
                 e.borrar();
                 system("pause");
@@ -83,29 +80,28 @@ inicio:
             case 0:
                 goto inicio;
             default:
-                cout << "Opción no válida." << endl;
+                cout << "opcion no valida! Intente de nuevo." << endl;
             }
         }
-
     case 2:
         while (true) {
             system("cls");
-            cout << "===== MENU: MARCAS =====" << endl;
-            cout << "1. Crear Marca" << endl;
-            cout << "2. Mostrar Marcas" << endl;
-            cout << "3. Actualizar Marca" << endl;
-            cout << "4. Borrar Marca" << endl;
-            cout << "0. Volver" << endl;
+            cout << "Seleccione una Opcion:" << endl;
+            cout << "1. Crear marca" << endl;
+            cout << "2. Mostrar marcas" << endl;
+            cout << "3. Actualizar marcas" << endl;
+            cout << "4. Borrar marca" << endl;
+            cout << "0. Salir" << endl;
             cout << "Ingrese una opcion: ";
             cin >> opcion2;
 
             switch (opcion2) {
             case 1:
                 system("cls");
-                cout << "Ingrese el Codigo de la Marca: ";
+                cout << "Ingrese el Codigo de la marca: ";
                 cin >> id_marca;
                 cin.ignore();
-                cout << "Ingrese Nombre de la Marca: ";
+                cout << "Ingrese Nombre de la marca: ";
                 getline(cin, marca);
                 mar = Marcas(id_marca, marca);
                 mar.crear();
@@ -118,10 +114,10 @@ inicio:
                 break;
             case 3:
                 system("cls");
-                cout << "Ingrese ID de Marca a modificar: ";
+                cout << "Ingrese ID de marca a modificar: ";
                 cin >> id_marca;
                 cin.ignore();
-                cout << "Ingrese Nuevo Nombre de la Marca: ";
+                cout << "Ingrese Nuevo Nombre de la marca: ";
                 getline(cin, marca);
                 mar = Marcas(id_marca, marca);
                 mar.actualizar();
@@ -129,8 +125,9 @@ inicio:
                 break;
             case 4:
                 system("cls");
-                cout << "Ingrese ID de Marca a Eliminar: ";
+                cout << "Ingrese ID de marca a Eliminar: ";
                 cin >> id_marca;
+                cin.ignore();
                 mar = Marcas(id_marca, marca);
                 mar.borrar();
                 system("pause");
@@ -138,10 +135,9 @@ inicio:
             case 0:
                 goto inicio;
             default:
-                cout << "Opción no válida." << endl;
+                cout << "opcion no valida! Intente de nuevo." << endl;
             }
         }
-
     case 3:
         menuVentas();
         goto inicio;
@@ -149,173 +145,84 @@ inicio:
         menuCompras();
         goto inicio;
     case 0:
-        cout << "Saliendo del sistema..." << endl;
+        cout << "Saliendo..." << endl;
         break;
     default:
-        cout << "Opción inválida." << endl;
+        cout << "opcion no valida! Intente de nuevo." << endl;
         goto inicio;
     }
 
     return 0;
 }
 
-
-
 void menuVentas() {
+    CRUDVentaDetalle venta;
     int opcion;
     do {
-        cout << "\n====== MENU VENTAS ======" << endl;
-        cout << "1. Crear venta con detalles" << endl;
-        cout << "2. Ver ventas" << endl;
-        cout << "3. Actualizar venta" << endl;
-        cout << "4. Eliminar venta" << endl;
-        cout << "5. Ver detalles de una venta" << endl;
-        cout << "0. Volver al menu principal" << endl;
-        cout << "Selecciona una opcion: ";
+        cout << "\n==== SISTEMA DE VENTAS ====" << endl;
+        cout << "1. Realizar Venta" << endl;
+        cout << "2. Leer Ventas" << endl;
+        cout << "3. Actualizar Venta" << endl;
+        cout << "4. Eliminar Venta" << endl;
+        cout << "5. Anular Venta" << endl;
+        cout << "0. Regresar al menu principal" << endl;
+        cout << "Seleccione una opcion: ";
         cin >> opcion;
 
-        if (opcion == 1) {
-            int num_factura, id_cliente, id_empleado, total_productos, id_producto;
-            string serie, fecha_factura, fecha_ingreso, cantidad;
-            double precio_unitario;
-
-            cout << "No. Factura: "; cin >> num_factura;
-            cout << "Serie: "; cin >> serie;
-            cout << "Fecha Factura (YYYY-MM-DD): "; cin >> fecha_factura;
-            cout << "ID Cliente: "; cin >> id_cliente;
-            cout << "ID Empleado: "; cin >> id_empleado;
-            cin.ignore();
-            cout << "Fecha Ingreso (YYYY-MM-DD HH:MM:SS): "; getline(cin, fecha_ingreso);
-
-            Venta venta(num_factura, serie, fecha_factura, id_cliente, id_empleado, fecha_ingreso);
-            if (venta.crear()) {
-                cout << "Cantidad de productos a registrar: "; cin >> total_productos;
-                for (int i = 0; i < total_productos; ++i) {
-                    cout << "\n--- Producto " << (i + 1) << " ---" << endl;
-                    cout << "ID Producto: "; cin >> id_producto;
-                    cout << "Cantidad: "; cin >> cantidad;
-                    cout << "Precio Unitario: "; cin >> precio_unitario;
-
-                    CRUDVentaDetalle detalle(num_factura, id_producto, cantidad, precio_unitario);
-                    detalle.crear();
-                }
-            }
+        switch (opcion) {
+        case 1:
+            venta.realizarVenta();
+            break;
+        case 2:
+            venta.leerVentas();
+            break;
+        case 3:
+            venta.actualizarVenta();
+            break;
+        case 4:
+            venta.eliminarVenta();
+            break;
+        case 5:
+            venta.anularVenta();
+            break;
+        case 0:
+            break;
+        default:
+            cout << "Opcion invalida. Intente nuevamente." << endl;
         }
-        else if (opcion == 2) {
-            Venta v;
-            v.leer();
-        }
-        else if (opcion == 3) {
-            int id;
-            int num_factura, id_cliente, id_empleado;
-            string serie, fecha_factura, fecha_ingreso;
-
-            cout << "ID de la venta a actualizar: "; cin >> id;
-            cout << "Nuevo No. Factura: "; cin >> num_factura;
-            cout << "Nueva Serie: "; cin >> serie;
-            cout << "Nueva Fecha Factura: "; cin >> fecha_factura;
-            cout << "Nuevo ID Cliente: "; cin >> id_cliente;
-            cout << "Nuevo ID Empleado: "; cin >> id_empleado;
-            cin.ignore();
-            cout << "Nueva Fecha Ingreso: "; getline(cin, fecha_ingreso);
-
-            Venta v(num_factura, serie, fecha_factura, id_cliente, id_empleado, fecha_ingreso);
-            v.actualizar(id);
-        }
-        else if (opcion == 4) {
-            int id;
-            cout << "ID de la venta a eliminar: "; cin >> id;
-
-            CRUDVentaDetalle cd;
-            cd.eliminarPorVenta(id);
-
-            Venta v;
-            v.eliminar(id);
-        }
-        else if (opcion == 5) {
-            int id;
-            cout << "ID de la venta: "; cin >> id;
-            CRUDVentaDetalle d;
-            d.leer(id);
-        }
-
     } while (opcion != 0);
 }
 
-
-
 void menuCompras() {
+    CRUDCompraDetalle compra;
     int opcion;
     do {
-        cout << "\n====== MENU COMPRAS ======" << endl;
-        cout << "1. Crear compra con detalles" << endl;
-        cout << "2. Ver compras" << endl;
-        cout << "3. Actualizar compra" << endl;
-        cout << "4. Eliminar compra" << endl;
-        cout << "5. Ver detalles de una compra" << endl;
-        cout << "0. Volver al menu principal" << endl;
-        cout << "Selecciona una opcion: ";
+        cout << "\n==== SISTEMA DE COMPRAS ====" << endl;
+        cout << "1. Realizar Compra" << endl;
+        cout << "2. Leer Compras" << endl;
+        cout << "3. Actualizar Compra" << endl;
+        cout << "4. Eliminar Compra" << endl;
+        cout << "0. Regresar al menu principal" << endl;
+        cout << "Seleccione una opcion: ";
         cin >> opcion;
 
-        if (opcion == 1) {
-            int no_orden, id_proveedor, total_productos, id_producto;
-            string fecha_orden, fecha_ingreso, cantidad;
-            double precio_unitario;
-
-            cout << "No. Orden de Compra: "; cin >> no_orden;
-            cout << "ID Proveedor: "; cin >> id_proveedor;
-            cout << "Fecha Orden (YYYY-MM-DD): "; cin >> fecha_orden;
-            cin.ignore();
-            cout << "Fecha Ingreso (YYYY-MM-DD HH:MM:SS): "; getline(cin, fecha_ingreso);
-
-            Compra compra(no_orden, id_proveedor, fecha_orden, fecha_ingreso);
-            if (compra.crear()) {
-                cout << "Cantidad de productos a registrar: "; cin >> total_productos;
-                for (int i = 0; i < total_productos; ++i) {
-                    cout << "\n--- Producto " << (i + 1) << " ---" << endl;
-                    cout << "ID Producto: "; cin >> id_producto;
-                    cout << "Cantidad: "; cin >> cantidad;
-                    cout << "Precio Costo Unitario: "; cin >> precio_unitario;
-
-                    CRUDCompraDetalle detalle(no_orden, id_producto, cantidad, precio_unitario);
-                    detalle.crear();
-                }
-            }
+        switch (opcion) {
+        case 1:
+            compra.realizarCompra();
+            break;
+        case 2:
+            compra.leerCompras();
+            break;
+        case 3:
+            compra.actualizarCompra();
+            break;
+        case 4:
+            compra.eliminarCompra();
+            break;
+        case 0:
+            break;
+        default:
+            cout << "Opcion invalida. Intente nuevamente." << endl;
         }
-        else if (opcion == 2) {
-            Compra c;
-            c.leer();
-        }
-        else if (opcion == 3) {
-            int id, no_orden, id_proveedor;
-            string fecha_orden, fecha_ingreso;
-
-            cout << "ID de la compra a actualizar: "; cin >> id;
-            cout << "Nuevo No. Orden: "; cin >> no_orden;
-            cout << "Nuevo ID Proveedor: "; cin >> id_proveedor;
-            cout << "Nueva Fecha Orden: "; cin >> fecha_orden;
-            cin.ignore();
-            cout << "Nueva Fecha Ingreso: "; getline(cin, fecha_ingreso);
-
-            Compra c(no_orden, id_proveedor, fecha_orden, fecha_ingreso);
-            c.actualizar(id);
-        }
-        else if (opcion == 4) {
-            int id;
-            cout << "ID de la compra a eliminar: "; cin >> id;
-
-            CRUDCompraDetalle cd;
-            cd.eliminarPorCompra(id);
-
-            Compra c;
-            c.eliminar(id);
-        }
-        else if (opcion == 5) {
-            int id;
-            cout << "ID de la compra: "; cin >> id;
-            CRUDCompraDetalle d;
-            d.leer(id);
-        }
-
     } while (opcion != 0);
 }

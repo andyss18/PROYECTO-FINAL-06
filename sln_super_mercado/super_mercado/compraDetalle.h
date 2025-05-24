@@ -3,19 +3,15 @@
 using namespace std;
 
 class CompraDetalle {
-protected:
-    int id_compra_detalle;
-    int id_compra;
-    int id_producto;
-    string cantidad;
-    double precio_costo_unitario;
-
 public:
+    int id_compra = 0, id_producto = 0, cantidad = 0;
+    float precio_costo = 0.0;
+
     CompraDetalle() {}
-    CompraDetalle(int c, int p, string cant, double precio) {
-        id_compra = c;
-        id_producto = p;
-        cantidad = cant;
-        precio_costo_unitario = precio;
+    CompraDetalle(int id_compra, int id_producto, int cantidad, float precio_costo) {
+        this->id_compra = id_compra;
+        this->id_producto = id_producto;
+        this->cantidad = cantidad;
+        this->precio_costo = precio_costo;
     }
 };
