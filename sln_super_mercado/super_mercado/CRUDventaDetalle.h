@@ -149,7 +149,7 @@ public:
 
         string consulta =
             "SELECT v.id_venta, v.fecha_ingreso, v.num_factura, v.serie, c.nit, c.nombres, c.apellidos "
-            "FROM ventas v INNER JOIN cliente c ON v.id_cliente = c.id_cliente WHERE v.anulada = 0";
+            "FROM ventas v INNER JOIN cliente c ON v.id_cliente = c.id_cliente WHERE v.anulada = 0;";
 
 
         if (mysql_query(con, consulta.c_str()) == 0) {

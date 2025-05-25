@@ -1,6 +1,8 @@
 ﻿#include <iostream>
 #include "Puestos.h"
 #include "Marcas.h"
+#include "Cliente.h"
+#include "Empleado.h"
 #include "CRUDventaDetalle.h"
 #include "CRUDcompraDetalle.h"
 
@@ -15,13 +17,17 @@ int main() {
     int opcion1, opcion2;
     Puesto e;
     Marcas mar;
+    Cliente cliente;
+    Empleado empleado;
 
 inicio:
     system("cls");
     cout << "INGRESE UNA OPERACION" << endl;
     cout << "1.INGRESAR A PUESTOS" << endl;
     cout << "2.INGRESAR A MARCAS" << endl;
-    cout << "3.INGRESAR A SISTEMA DE VENTAS" << endl;
+    cout << "3.INGRESAR A CLIENTES" << endl;
+    cout << "4.INGRESAR A EMPLEADOS" << endl;
+    cout << "5.INGRESAR A SISTEMA DE VENTAS" << endl;
     cout << "4.INGRESAR A SISTEMA DE COMPRAS" << endl;
     cout << "0. Salir" << endl;
     cin >> opcion1;
@@ -139,9 +145,214 @@ inicio:
             }
         }
     case 3:
+        while (true) { //ACA EMPIEZA EL MENU: Clientes
+            system("cls");
+            cout << "Seleccione una Opcion:" << endl;
+            cout << "1. Crear Cliente" << endl;
+            cout << "2. Mostrar Clientes" << endl;
+            cout << "3. Actualizar Cliente" << endl;
+            cout << "4. Borrar Cliente" << endl;
+            cout << "0. Salir" << endl;
+            cout << "Ingrese una opcion: ";
+            cin >> opcion2;
+
+            // Variables para cliente
+            int id_cl = 0, tel = 0;
+            string nom, ape, nit, correo, fn, dir, fecha_ing;
+            bool gen = 0;
+
+            switch (opcion2) {
+            case 1: // CREAR
+                system("cls");
+                cin.ignore();
+                cout << "Nombres: ";
+                getline(cin, nom);
+                cout << "Apellidos: ";
+                getline(cin, ape);
+                cout << "NIT: ";
+                getline(cin, nit);
+                cout << "Genero (0 = Mujer, 1 = Hombre): ";
+                cin >> gen;
+                cout << "Telefono: ";
+                cin >> tel;
+                cin.ignore();
+                cout << "Correo Electronico: ";
+                getline(cin, correo);
+                cout << "Fecha Ingreso (YYYY-MM-DD): ";
+                getline(cin, fecha_ing);
+
+                //   cliente = Cliente(nombres, apellidos, nit, genero, telefono, fecha_ingreso, correo);
+                cliente = Cliente(nom, ape, dir, gen, tel, fn, nit, correo, fecha_ing, id_cl);
+                cliente.crear();
+                system("pause");
+                break;
+
+            case 2: // LEER
+                system("cls");
+                cliente.leer();
+                system("pause");
+                break;
+
+            case 3: // ACTUALIZAR
+                system("cls");
+                cout << "ID del cliente a modificar: ";
+                cin >> id_cl;
+                cin.ignore();
+                cout << "Nombres: ";
+                getline(cin, nom);
+                cout << "Apellidos: ";
+                getline(cin, ape);
+                cout << "NIT: ";
+                getline(cin, nit);
+                cout << "Genero (0 = Mujer, 1 = Hombre): ";
+                cin >> gen;
+                cout << "Telefono: ";
+                cin >> tel;
+                cin.ignore();
+                cout << "Correo Electronico: ";
+                getline(cin, correo);
+                cout << "Fecha Ingreso (YYYY-MM-DD): ";
+                getline(cin, fecha_ing);
+
+                cliente = Cliente(nom, ape, dir, gen, tel, fn, nit, correo, fecha_ing, id_cl);
+                cliente.actualizar();
+                system("pause");
+                break;
+
+            case 4: // ELIMINAR
+                system("cls");
+                cout << "ID del cliente a eliminar: ";
+                cin >> id_cl;
+                cin.ignore();
+
+                cliente = Cliente(nom, ape, dir, gen, tel, fn, nit, correo, fecha_ing, id_cl);
+                cliente.borrar();
+                system("pause");
+                break;
+
+            case 0:
+                cout << "Saliendo..." << endl;
+                goto inicio;
+                break;
+            default:
+                cout << "opcion no valida! Intente de nuevo." << endl;
+            } //TERMINA EL CASE 3: CLIENTE
+        }
+    case 4:
+        while (true) { //ACA EMPIEZA EL MENU: Empleados
+            system("cls");
+            cout << "Seleccione una Opcion:" << endl;
+            cout << "1. Crear Empleado" << endl;
+            cout << "2. Mostrar Empleado" << endl;
+            cout << "3. Actualizar Empleado" << endl;
+            cout << "4. Borrar Empleado" << endl;
+            cout << "0. Salir" << endl;
+            cout << "Ingrese una opcion: ";
+            cin >> opcion2;
+
+            // Variables generales para reutilizar
+            string nom, ape, dir, fn, fecha_ini_lab, fecha_ing;
+            int tel = 0, id_puesto = 0, dpi = 0, id_empleado = 0;
+            bool gen = 0;
+
+            Empleado empleado;
+
+            switch (opcion2) {
+            case 1: // CREAR EMPLEADO
+                system("cls");
+                cin.ignore();
+                cout << "Nombres: ";
+                getline(cin, nom);
+                cout << "Apellidos: ";
+                getline(cin, ape);
+                cout << "Direccion: ";
+                getline(cin, dir);
+                cout << "Genero (0 = Mujer, 1 = Hombre): ";
+                cin >> gen;
+                cout << "Telefono: ";
+                cin >> tel;
+                cin.ignore();
+                cout << "DPI: ";
+                cin >> dpi;
+                cin.ignore();
+                cout << "Fecha Nacimiento (YYYY-MM-DD): ";
+                getline(cin, fn);
+                cout << "ID Puesto: ";
+                cin >> id_puesto;
+                cin.ignore();
+                cout << "Fecha Inicio de Labores (YYYY-MM-DD): ";
+                getline(cin, fecha_ini_lab);
+                cout << "Fecha Ingreso (YYYY-MM-DD): ";
+                getline(cin, fecha_ing);
+
+                empleado = Empleado(nom, ape, dir, gen, tel, fn, dpi, id_puesto, fecha_ini_lab, fecha_ing, id_empleado);
+                empleado.crear();
+                system("pause");
+                break;
+
+            case 2: // LEER EMPLEADOS
+                system("cls");
+                empleado.leer();
+                system("pause");
+                break;
+
+            case 3: // ACTUALIZAR EMPLEADO
+                system("cls");
+                cout << "ID del empleado a modificar: ";
+                cin >> id_empleado;
+                cin.ignore();
+                cout << "Nombres: ";
+                getline(cin, nom);
+                cout << "Apellidos: ";
+                getline(cin, ape);
+                cout << "Direccion: ";
+                getline(cin, dir);
+                cout << "Genero (0 = Mujer, 1 = Hombre): ";
+                cin >> gen;
+                cout << "Telefono: ";
+                cin >> tel;
+                cin.ignore();
+                cout << "DPI: ";
+                cin >> dpi;
+                cin.ignore();
+                cout << "Fecha Nacimiento (YYYY-MM-DD): ";
+                getline(cin, fn);
+                cout << "ID Puesto: ";
+                cin >> id_puesto;
+                cin.ignore();
+                cout << "Fecha Inicio de Labores (YYYY-MM-DD): ";
+                getline(cin, fecha_ini_lab);
+                cout << "Fecha Ingreso (YYYY-MM-DD): ";
+                getline(cin, fecha_ing);
+
+                empleado = Empleado(nom, ape, dir, gen, tel, fn, dpi, id_puesto, fecha_ini_lab, fecha_ing, id_empleado);
+                empleado.actualizar();
+                system("pause");
+                break;
+
+            case 4: // ELIMINAR 
+
+                system("cls");
+                cout << "ID del empleado a eliminar: ";
+                cin >> id_empleado;
+                cin.ignore();
+
+                empleado = Empleado(nom, ape, dir, gen, tel, fn, dpi, id_puesto, fecha_ini_lab, fecha_ing, id_empleado);
+                empleado.borrar();
+                system("pause");
+                break;
+            case 0:
+                cout << "Saliendo..." << endl;
+                goto inicio;
+                break;
+            default:
+                cout << "opcion no valida! Intente de nuevo." << endl;
+            } //TERMINA EL CASE 4: Empleado
+        }
+    case 5:
         menuVentas();
         goto inicio;
-    case 4:
+    case 6:
         menuCompras();
         goto inicio;
     case 0:
