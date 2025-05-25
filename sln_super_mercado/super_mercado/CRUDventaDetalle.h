@@ -30,7 +30,7 @@ public:
                 nombre = row[0];
                 apellidos = row[1];
                 nombre_completo = nombre + " " + apellidos;
-                cin.ignore(); // Limpiar buffer
+                cin.ignore();
                 cout << "Ingrese dirección: ";
                 getline(cin, direccion);
             }
@@ -43,13 +43,13 @@ public:
                 nombre_completo = nombre + " " + apellidos;
 
                 cout << "Ingrese dirección: ";
-                getline(cin, direccion); // Solo para mostrar en la factura
+                getline(cin, direccion); 
 
                 cout << "Ingrese teléfono: ";
                 string telefono;
                 getline(cin, telefono);
 
-                // Insertar cliente sin fecha_nacimiento
+                
                 string insert_cliente = "INSERT INTO cliente(nit, nombres, apellidos, telefono) VALUES ('" +
                     nit + "', '" + nombre + "', '" + apellidos + "', '" + telefono + "')";
                 if (mysql_query(con, insert_cliente.c_str()) != 0) {
@@ -63,7 +63,7 @@ public:
         string fecha;
         cout << "Ingrese fecha (YYYY-MM-DD): ";
         cin >> fecha;
-        string serie = "A";  // Fija o configurable
+        string serie = "A";  
         int no_factura = 1;
         string query_max_factura = "SELECT MAX(num_factura) FROM ventas WHERE serie = '" + serie + "'";
         if (mysql_query(con, query_max_factura.c_str()) == 0) {
@@ -180,7 +180,7 @@ public:
         cn.abrir_conexion();
         MYSQL* con = cn.getConector();
 
-        // Verificar si la venta existe
+        
         string consulta = "SELECT anulada FROM ventas WHERE id_venta = " + to_string(id_venta);
         if (mysql_query(con, consulta.c_str()) != 0) {
             cerr << "Error al buscar la venta: " << mysql_error(con) << endl;

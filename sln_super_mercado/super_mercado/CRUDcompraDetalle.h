@@ -16,11 +16,27 @@ public:
         string fecha;
         cout << "Ingrese ID del proveedor: ";
         cin >> id_proveedor;
-        cout << "Ingrese fecha (YYYY-MM-DD): ";
+        cout << "Ingrese fecha de orden (YYYY-MM-DD): ";
         cin >> fecha;
 
-        string insert_compra = "INSERT INTO compras(id_proveedor, fecha_orden) VALUES (" + to_string(id_proveedor) + ", '" + fecha + "')";
+   
+        int no_orden = 1;
+        MYSQL_RES* res;
+        MYSQL_ROW row;
+        string query_max = "SELECT MAX(no_orden_compra) FROM compras";
+        if (mysql_query(con, query_max.c_str()) == 0) {
+            res = mysql_store_result(con);
+            row = mysql_fetch_row(res);
+            if (row && row[0]) {
+                no_orden = stoi(row[0]) + 1;
+            }
+        }
 
+        string insert_compra =
+            "INSERT INTO compras(no_orden_compra, id_proveedor, fecha_orden, fecha_ingreso) VALUES (" +
+            to_string(no_orden) + ", " +
+            to_string(id_proveedor) + ", '" +
+            fecha + "', NOW())";
 
         if (mysql_query(con, insert_compra.c_str()) != 0) {
             cerr << "Error al insertar en 'compras': " << mysql_error(con) << endl;
@@ -54,7 +70,6 @@ public:
             string insert_det = "INSERT INTO compras_detalle(id_compra, id_producto, cantidad, precio_costo_unitario) VALUES(" +
                 to_string(d.id_compra) + "," + to_string(d.id_producto) + "," + to_string(d.cantidad) + "," + to_string(d.precio_costo) + ")";
 
-
             if (mysql_query(con, insert_det.c_str()) != 0) {
                 cerr << "Error al insertar en 'compras_detalle': " << mysql_error(con) << endl;
                 cn.cerrar_conexion();
@@ -63,7 +78,7 @@ public:
         }
 
         cout << "\n=========== FACTURA COMPRA ===========\n";
-        cout << "ID Compra: " << id_compra << "\tFecha: " << fecha << "\n";
+        cout << "No. Orden Compra: " << no_orden << "\tFecha Orden: " << fecha << "\n";
         cout << "ID Proveedor: " << id_proveedor << "\n\n";
         cout << "PRODUCTO\n";
         for (auto& d : detalles) {
@@ -73,6 +88,7 @@ public:
 
         cn.cerrar_conexion();
     }
+
 
     void leerCompras() {
         ConexionBD cn;
