@@ -9,22 +9,28 @@ using namespace std;
 
 class Empleado : Persona {
 private:
-	int id_empleado = 0, id_puesto = 0;
-	string dpi, fecha_nacimiento, fecha_inicio_labores, fecha_ingreso;
-
+	int telefono = 0, dpi = 0, id_empleado = 0, id_puesto = 0;
+	string nombres, apellidos, direccion, fecha_nacimiento, fecha_inicio_labores, fecha_ingreso;
+	bool genero;
 public:
-	Empleado() {}
-	Empleado(string nom, string ape, string dir, bool gen, int tel, string fn,
-		string d, int id_p, string fil, string fi, int id_e)
+	Empleado() {}																//DPI
+	Empleado(string nom, string ape, string dir, bool gen, int tel, string fn, int d, int id_p, string fil, string fi, int id_e)
 		: Persona(nom, ape, dir, gen, tel, fn) {
+		//nom, ape, dir, gen, tel, fn, dpi, id_puesto, fecha_ini_lab, fecha_ing, id_em
+		nombres = nom;
+		apellidos = ape;
+		direccion = dir;
+		genero = gen;
+		telefono = tel;
+		fecha_nacimiento = fn;
 		dpi = d;
 		id_puesto = id_p;
 		fecha_inicio_labores = fil;
 		fecha_ingreso = fi;
 		id_empleado = id_e;
-		fecha_nacimiento = fn;
-	}
 
+	}
+	/*
 	// SET
 	void setId_empleado(int id) { id_empleado = id; }
 	void setDpi(string d) { dpi = d; }
@@ -40,7 +46,7 @@ public:
 	string getFecha_nacimiento() { return fecha_nacimiento; }
 	string getFecha_inicio_labores() { return fecha_inicio_labores; }
 	string getFecha_ingreso() { return fecha_ingreso; }
-
+	*/
 	// MÉTODOS
 	void crear() {
 		int q_estado;
@@ -50,7 +56,8 @@ public:
 			string t = to_string(telefono);
 			string g = to_string(genero);
 			string p = to_string(id_puesto);
-			string insert = "INSERT INTO empleado(nombres, apellidos, direccion, telefono, dpi, genero, fecha_nacimiento, id_puesto, fecha_inicio_labores, fecha_ingreso) VALUES ('" + nombres + "','" + apellidos + "','" + direccion + "'," + t + ",'" + dpi + "'," + g + ",'" + fecha_nacimiento + "'," + p + ",'" + fecha_inicio_labores + "','" + fecha_ingreso + "');";
+			string dpid = to_string(dpi);
+			string insert = "INSERT INTO empleado(nombres, apellidos, direccion, telefono, dpi, genero, fecha_nacimiento, id_puesto, fecha_inicio_labores, fecha_ingreso) VALUES ('" + nombres + "','" + apellidos + "','" + direccion + "'," + t + ",'" + dpid + "'," + g + ",'" + fecha_nacimiento + "'," + p + ",'" + fecha_inicio_labores + "','" + fecha_ingreso + "');";
 			const char* i = insert.c_str();
 			q_estado = mysql_query(cn.getConector(), i);
 			if (!q_estado)
@@ -103,7 +110,8 @@ public:
 			string g = to_string(genero);
 			string p = to_string(id_puesto);
 			string id = to_string(id_empleado);
-			string update = "UPDATE empleado SET nombres='" + nombres + "', apellidos='" + apellidos + "', direccion='" + direccion + "', telefono=" + t + ", dpi='" + dpi + "', genero=" + g + ", fecha_nacimiento='" + fecha_nacimiento + "', id_puesto=" + p + ", fecha_inicio_labores='" + fecha_inicio_labores + "', fecha_ingreso='" + fecha_ingreso + "' WHERE id_empleado=" + id + ";";
+			string dpid = to_string(dpi);
+			string update = "UPDATE empleado SET nombres='" + nombres + "', apellidos='" + apellidos + "', direccion='" + direccion + "', telefono=" + t + ", dpi='" + dpid + "', genero=" + g + ", fecha_nacimiento='" + fecha_nacimiento + "', id_puesto=" + p + ", fecha_inicio_labores='" + fecha_inicio_labores + "', fecha_ingreso='" + fecha_ingreso + "' WHERE id_empleado=" + id + ";";
 			const char* u = update.c_str();
 			q_estado = mysql_query(cn.getConector(), u);
 			if (!q_estado)
