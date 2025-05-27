@@ -3,6 +3,8 @@
 #include "Marcas.h"
 #include "Cliente.h"
 #include "Empleado.h"
+#include "Proveedor.h"
+#include "Productos.h"
 #include "CRUDventaDetalle.h"
 #include "CRUDcompraDetalle.h"
 
@@ -19,6 +21,8 @@ int main() {
     Marcas mar;
     Cliente cliente;
     Empleado empleado;
+    Producto product;
+    Proveedor prov;
 
 inicio:
     system("cls");
@@ -27,8 +31,10 @@ inicio:
     cout << "2.INGRESAR A MARCAS" << endl;
     cout << "3.INGRESAR A CLIENTES" << endl;
     cout << "4.INGRESAR A EMPLEADOS" << endl;
-    cout << "5.INGRESAR A SISTEMA DE VENTAS" << endl;
-    cout << "6.INGRESAR A SISTEMA DE COMPRAS" << endl;
+    cout << "5.INGRESAR A PRODUCTOS" << endl;
+    cout << "6.INGRESAR A PROVEEDORES" << endl;
+    cout << "7.INGRESAR A SISTEMA DE VENTAS" << endl;
+    cout << "8.INGRESAR A SISTEMA DE COMPRAS" << endl;
     cout << "0. Salir" << endl;
     cin >> opcion1;
 
@@ -145,7 +151,7 @@ inicio:
             }
         }
     case 3:
-        while (true) { 
+        while (true) { //ACA EMPIEZA EL MENU: Clientes
             system("cls");
             cout << "Seleccione una Opcion:" << endl;
             cout << "1. Crear Cliente" << endl;
@@ -156,7 +162,7 @@ inicio:
             cout << "Ingrese una opcion: ";
             cin >> opcion2;
 
-            
+            // Variables para cliente
             int id_cl = 0, tel = 0;
             string nom, ape, nit, correo, fn, dir, fecha_ing;
             bool gen = 0;
@@ -181,7 +187,7 @@ inicio:
                 cout << "Fecha Ingreso (YYYY-MM-DD): ";
                 getline(cin, fecha_ing);
 
-                
+                //   cliente = Cliente(nombres, apellidos, nit, genero, telefono, fecha_ingreso, correo);
                 cliente = Cliente(nom, ape, dir, gen, tel, fn, nit, correo, fecha_ing, id_cl);
                 cliente.crear();
                 system("pause");
@@ -236,7 +242,7 @@ inicio:
                 break;
             default:
                 cout << "opcion no valida! Intente de nuevo." << endl;
-            } 
+            } //TERMINA EL CASE 3: CLIENTE
         }
     case 4: while (true) { 
         system("cls");
@@ -398,9 +404,206 @@ inicio:
         } //TERMINA EL CASE 4: Empleado
     }
     case 5:
+        while (true) { //ACA EMPIEZA EL MENU: PRODUCTOS
+            system("cls");
+            cout << "Seleccione una Opcion:" << endl;
+            cout << "1. Crear Producto" << endl;
+            cout << "2. Mostrar Producto" << endl;
+            cout << "3. Actualizar Producto" << endl;
+            cout << "4. Borrar Producto" << endl;
+            cout << "0. Salir" << endl;
+            cout << "Ingrese una opcion: ";
+            cin >> opcion2;
+
+            int id_p, id_marca, existencia;
+            string producto, descripcion, imagen, fecha_ingreso; //listo
+            double precio_costo, precio_venta;
+
+            switch (opcion2) {
+            case 1: // CREAR
+                system("cls");
+                cin.ignore();
+                cout << "Producto: ";
+                getline(cin, producto);
+                cout << "Descripcion: ";
+                getline(cin, descripcion);
+                cout << "Imagen: ";
+                getline(cin, imagen);
+                cout << "Fecha de ingreso: ";
+                getline(cin, fecha_ingreso);
+                cout << "ID Producto: ";
+                cin >> id_p;
+                cin.ignore();
+                cout << "ID Marca: ";
+                cin >> id_marca;
+                cin.ignore();
+                cout << "Existencia: ";
+                cin >> existencia;
+                cin.ignore();
+                cout << "Precio costo: ";
+                cin >> precio_costo;
+                cin.ignore();
+                cout << "Precio venta: ";
+                cin >> precio_venta;
+                cin.ignore();
+
+                //   int id_p, string prod, int id_m, string desc, string img, double costo, double venta, int exist, string fecha;
+                //product = Producto(producto, descripcion, imagen, fecha_ingreso);
+                product = Producto(id_p, producto, id_marca, descripcion, imagen, precio_costo, precio_venta, existencia, fecha_ingreso);
+                product.crear();
+                system("pause");
+                break;
+
+            case 2: // LEER
+                system("cls");
+                product.leer();
+                system("pause");
+                break;
+
+            case 3: // ACTUALIZAR
+                system("cls");
+                cin.ignore();
+                cout << "Producto: ";
+                getline(cin, producto);
+                cout << "Descripcion: ";
+                getline(cin, descripcion);
+                cout << "Imagen: ";
+                getline(cin, imagen);
+                cout << "Fecha de ingreso: ";
+                getline(cin, fecha_ingreso);
+                cout << "ID Producto: ";
+                cin >> id_p;
+                cin.ignore();
+                cout << "ID Marca: ";
+                cin >> id_marca;
+                cin.ignore();
+                cout << "Existencia: ";
+                cin >> existencia;
+                cin.ignore();
+                cout << "Precio costo: ";
+                cin >> precio_costo;
+                cin.ignore();
+                cout << "Precio venta: ";
+                cin >> precio_venta;
+                cin.ignore();
+
+                //   int id_p, string prod, int id_m, string desc, string img, double costo, double venta, int exist, string fecha;
+                //product = Producto(producto, descripcion, imagen, fecha_ingreso);
+                product = Producto(id_p, producto, id_marca, descripcion, imagen, precio_costo, precio_venta, existencia, fecha_ingreso);
+                product.actualizar();
+                system("pause");
+                break;
+
+            case 4: // ELIMINAR
+                system("cls");
+                cin.ignore();
+                cout << "ID Producto a eliminar: ";
+                cin >> id_p;
+                cin.ignore();
+
+                product.setId_producto(id_p);
+
+                //product = Producto(id_producto, producto, id_marca, descripcion, imagen, precio_costo, precio_venta, existencia, fecha_ingreso);
+                product.borrar();
+                system("pause");
+                break;
+
+            case 0:
+                cout << "Saliendo..." << endl;
+                goto inicio;
+                break;
+            default:
+                cout << "opcion no valida! Intente de nuevo." << endl;
+            } //TERMINA EL CASE 5: PRODUCTOS3
+        }
+    case 6:
+        while (true) { //ACA EMPIEZA EL MENU: PROVEEDORES
+            system("cls");
+            cout << "Seleccione una Opcion:" << endl;
+            cout << "1. Crear Proveedor" << endl;
+            cout << "2. Mostrar Proveedor" << endl;
+            cout << "3. Actualizar Proveedor" << endl;
+            cout << "4. Borrar Proveedor" << endl;
+            cout << "0. Salir" << endl;
+            cout << "Ingrese una opcion: ";
+            cin >> opcion2;
+
+            // Variables generales para reutilizar
+            string proveedor, nit, direccion;
+            int id_proveedor = 0;
+            int telefono = 0;
+
+            switch (opcion2) {
+            case 1: // CREAR 
+                system("cls");
+                cin.ignore();
+                cout << "Nombre Proveedor: ";
+                getline(cin, proveedor);
+                cout << "nit: ";
+                getline(cin, nit);
+                cout << "Direccion: ";
+                getline(cin, direccion);
+                cout << "telefono: ";
+                cin >> telefono;
+                cin.ignore();
+                cout << "id del proveedor: ";
+                cin >> id_proveedor;
+                cin.ignore();
+
+                prov = Proveedor(id_proveedor, proveedor, nit, direccion, telefono);
+                prov.crear();
+                system("pause");
+                break;
+
+            case 2: // LEER 
+                system("cls");
+                prov.leer();
+                system("pause");
+                break;
+
+            case 3: // ACTUALIZAR 
+                system("cls");
+                cout << "ID del proveedor a modificar: ";
+                cin >> id_proveedor;
+                cin.ignore();
+                cout << "Nombre proveedor: ";
+                getline(cin, proveedor);
+                cout << "nit: ";
+                getline(cin, nit);
+                cout << "Direccion: ";
+                getline(cin, direccion);
+                cout << "Telefono: ";
+                cin >> telefono;
+                cin.ignore();
+
+                prov = Proveedor(id_proveedor, proveedor, nit, direccion, telefono);
+                prov.actualizar();
+                system("pause");
+                break;
+
+            case 4: // ELIMINAR 
+
+                system("cls");
+                cout << "ID del Proveedor a eliminar: ";
+                cin >> id_proveedor;
+                cin.ignore();
+
+                prov = Proveedor(id_proveedor, proveedor, nit, direccion, telefono);
+                prov.borrar();
+                system("pause");
+                break;
+            case 0:
+                cout << "Saliendo..." << endl;
+                goto inicio;
+                break;
+            default:
+                cout << "opcion no valida! Intente de nuevo." << endl;
+            } //TERMINA EL CASE 6: PROVEEDOR
+        }
+    case 7:
         menuVentas();
         goto inicio;
-    case 6:
+    case 8:
         menuCompras();
         goto inicio;
     case 0:
@@ -410,7 +613,6 @@ inicio:
         cout << "opcion no valida! Intente de nuevo." << endl;
         goto inicio;
     }
-
     return 0;
 }
 

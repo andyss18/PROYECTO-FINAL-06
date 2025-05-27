@@ -1,4 +1,6 @@
-﻿  empleado.cpp
+﻿  Productos.cpp
   main_puestos.cpp
+C:\Users\itsan\OneDrive\Desktop\intento final francis\PROYECTO-FINAL-06\sln_super_mercado\super_mercado\main_puestos.cpp(299,29): warning C4566: el carácter representado por el nombre de carácter universal '\u274C' no se puede representar en la página de códigos actual (1252)
+C:\Users\itsan\OneDrive\Desktop\intento final francis\PROYECTO-FINAL-06\sln_super_mercado\super_mercado\main_puestos.cpp(363,33): warning C4566: el carácter representado por el nombre de carácter universal '\u274C' no se puede representar en la página de códigos actual (1252)
   Generando código...
-  super_mercado.vcxproj -> C:\Users\itsan\OneDrive\Desktop\intento #4\PROYECTO-FINAL-06\sln_super_mercado\x64\Debug\super_mercado.exe
+  super_mercado.vcxproj -> C:\Users\itsan\OneDrive\Desktop\intento final francis\PROYECTO-FINAL-06\sln_super_mercado\x64\Debug\super_mercado.exe

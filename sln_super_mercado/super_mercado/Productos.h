@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class Producto {
+class Producto { 
 private:
     int id_producto, id_marca, existencia;
     string producto, descripcion, imagen, fecha_ingreso;
@@ -26,6 +26,11 @@ public:
         existencia = exist;
         fecha_ingreso = fecha;
     }
+    // SET
+    void setId_producto(int id_p) { id_producto = id_p; }
+
+    //GET
+    int getId_proveedor() { return id_producto; }
 
     void crear() {
         ConexionBD cn;
