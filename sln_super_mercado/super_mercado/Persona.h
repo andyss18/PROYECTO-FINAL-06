@@ -4,7 +4,7 @@
 using namespace std;
 
 class Persona{
-	//atributos
+	
 public : string nombres, apellidos, direccion, fecha_nacimiento;
 		 int telefono = 0; 
 		 bool genero = false;

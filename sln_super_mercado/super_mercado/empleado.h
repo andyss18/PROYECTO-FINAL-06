@@ -13,8 +13,9 @@ private:
 	string nombres, apellidos, direccion, fecha_nacimiento, fecha_inicio_labores, fecha_ingreso;
 	bool genero;
 public:
-	Empleado() {}																//DPI
-	Empleado(string nom, string ape, string dir, bool gen, int tel, string fn, int d, int id_p, string fil, string fi, int id_e)
+	Empleado() {}																
+	Empleado(string nom, string ape, string dir, bool gen, int tel, string fn, int d, int id_p, string fi, int id_e)
+
 		: Persona(nom, ape, dir, gen, tel, fn) {
 		//nom, ape, dir, gen, tel, fn, dpi, id_puesto, fecha_ini_lab, fecha_ing, id_em
 		nombres = nom;
@@ -25,7 +26,7 @@ public:
 		fecha_nacimiento = fn;
 		dpi = d;
 		id_puesto = id_p;
-		fecha_inicio_labores = fil;
+		
 		fecha_ingreso = fi;
 		id_empleado = id_e;
 
@@ -57,7 +58,7 @@ public:
 			string g = to_string(genero);
 			string p = to_string(id_puesto);
 			string dpid = to_string(dpi);
-			string insert = "INSERT INTO empleado(nombres, apellidos, direccion, telefono, dpi, genero, fecha_nacimiento, id_puesto, fecha_inicio_labores, fecha_ingreso) VALUES ('" + nombres + "','" + apellidos + "','" + direccion + "'," + t + ",'" + dpid + "'," + g + ",'" + fecha_nacimiento + "'," + p + ",'" + fecha_inicio_labores + "','" + fecha_ingreso + "');";
+			string insert = "INSERT INTO empleado(nombres, apellidos, direccion, telefono, dpi, genero, fecha_nacimiento, id_puesto, fecha_inicio_labores, fecha_ingreso) VALUES ('" + nombres + "','" + apellidos + "','" + direccion + "'," + t + ",'" + dpid + "'," + g + ",'" + fecha_nacimiento + "'," + p + ", NOW(), '" + fecha_ingreso + "');";
 			const char* i = insert.c_str();
 			q_estado = mysql_query(cn.getConector(), i);
 			if (!q_estado)
@@ -111,7 +112,7 @@ public:
 			string p = to_string(id_puesto);
 			string id = to_string(id_empleado);
 			string dpid = to_string(dpi);
-			string update = "UPDATE empleado SET nombres='" + nombres + "', apellidos='" + apellidos + "', direccion='" + direccion + "', telefono=" + t + ", dpi='" + dpid + "', genero=" + g + ", fecha_nacimiento='" + fecha_nacimiento + "', id_puesto=" + p + ", fecha_inicio_labores='" + fecha_inicio_labores + "', fecha_ingreso='" + fecha_ingreso + "' WHERE id_empleado=" + id + ";";
+			string update = "UPDATE empleado SET nombres='" + nombres + "', apellidos='" + apellidos + "', direccion='" + direccion + "', telefono=" + t + ", dpi='" + dpid + "', genero=" + g + ", fecha_nacimiento='" + fecha_nacimiento + "', id_puesto=" + p +", fecha_ingreso='" + fecha_ingreso + "' WHERE id_empleado=" + id + ";";
 			const char* u = update.c_str();
 			q_estado = mysql_query(cn.getConector(), u);
 			if (!q_estado)
@@ -123,7 +124,9 @@ public:
 			cout << "Fallo la conexión." << endl;
 		}
 		cn.cerrar_conexion();
+	
 	}
+
 
 	void borrar() {
 		int q_estado;

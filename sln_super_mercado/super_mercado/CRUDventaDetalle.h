@@ -31,7 +31,7 @@ public:
                 apellidos = row[1];
                 nombre_completo = nombre + " " + apellidos;
                 cin.ignore();
-                cout << "Ingrese dirección: ";
+                cout << "Ingrese direccion: ";
                 getline(cin, direccion);
             }
             else {
@@ -42,10 +42,10 @@ public:
                 getline(cin, apellidos);
                 nombre_completo = nombre + " " + apellidos;
 
-                cout << "Ingrese dirección: ";
+                cout << "Ingrese direccion: ";
                 getline(cin, direccion); 
 
-                cout << "Ingrese teléfono: ";
+                cout << "Ingrese telefono: ";
                 string telefono;
                 getline(cin, telefono);
 
@@ -93,6 +93,33 @@ public:
             int id_producto, cantidad;
             cout << "Ingrese ID del producto: ";
             cin >> id_producto;
+            
+            ConexionBD cn;
+            cn.abrir_conexion();
+            if (cn.getConector()) {
+                string consulta = "SELECT producto, descripcion FROM productos WHERE id_producto = " + to_string(id_producto);
+                const char* c = consulta.c_str();
+                if (!mysql_query(cn.getConector(), c)) {
+                    MYSQL_RES* resultado = mysql_store_result(cn.getConector());
+                    MYSQL_ROW fila;
+                    if ((fila = mysql_fetch_row(resultado))) {
+                        cout << "Producto seleccionado: " << fila[0] << endl;
+                        cout << "Descripcion: " << fila[1] << endl;
+                    }
+                    else {
+                        cout << "Producto no encontrado." << endl;
+                    }
+                    mysql_free_result(resultado);
+                }
+                else {
+                    cout << "Error al consultar producto." << endl;
+                }
+            }
+            else {
+                cout << "Error de conexion." << endl;
+            }
+            cn.cerrar_conexion();
+
             cout << "Ingrese cantidad: ";
             cin >> cantidad;
 
@@ -129,7 +156,7 @@ public:
         cout << "\n=========== FACTURA ===========\n";
         cout << "No Factura: " << no_factura << "\tFecha: " << fecha << "\n";
         cout << "NIT: " << nit << "\nCliente: " << nombre_completo << "\n\n";
-        cout << "Dirección: " << direccion << "\n\n";
+        cout << "Direccion: " << direccion << "\n\n";
         cout << "PRODUCTO\n";
         for (auto& d : detalles) {
             cout << d.id_producto << "-" << d.nombre_producto << " marca " << d.marca << "\tQ " << d.precio_unitario << " x " << d.cantidad << "\n";

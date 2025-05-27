@@ -53,7 +53,7 @@ public :
 			const char* i = insert.c_str();
 			q_estado = mysql_query(cn.getConector(), i);
 			if (!q_estado)
-				cout << "Inserción exitosa..." << endl;
+				cout << "Insercion exitosa..." << endl;
 			else
 				cout << "Error al insertar..." << endl;
 		}
