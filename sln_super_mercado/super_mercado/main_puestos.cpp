@@ -184,10 +184,9 @@ inicio:
                 cin.ignore();
                 cout << "Correo Electronico: ";
                 getline(cin, correo);
-                cout << "Fecha Ingreso (YYYY-MM-DD): ";
-                getline(cin, fecha_ing);
+                
 
-                //   cliente = Cliente(nombres, apellidos, nit, genero, telefono, fecha_ingreso, correo);
+                
                 cliente = Cliente(nom, ape, dir, gen, tel, fn, nit, correo, fecha_ing, id_cl);
                 cliente.crear();
                 system("pause");

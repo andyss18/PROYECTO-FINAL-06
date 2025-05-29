@@ -49,19 +49,23 @@ public :
 		if (cn.getConector()) {
 			string t = to_string(telefono);
 			string g = to_string(genero);
-			string insert = "INSERT INTO cliente(nombres, apellidos, nit, genero, telefono, correo_electronico, fecha_ingreso) VALUES ('" + nombres + "','" + apellidos + "','" + nit + "'," + g + "," + t + ",'" + correo + "','" + fecha_ingreso + "');";
+
+			string insert = "INSERT INTO cliente(nombres, apellidos, nit, genero, telefono, correo_electronico, fecha_ingreso) "
+				"VALUES ('" + nombres + "','" + apellidos + "','" + nit + "'," + g + "," + t + ",'" + correo + "', CURRENT_DATE);";
+
 			const char* i = insert.c_str();
 			q_estado = mysql_query(cn.getConector(), i);
 			if (!q_estado)
 				cout << "Insercion exitosa..." << endl;
 			else
-				cout << "Error al insertar..." << endl;
+				cout << "Error al insertar: " << mysql_error(cn.getConector()) << endl;
 		}
 		else {
 			cout << "Fallo la conexión." << endl;
 		}
 		cn.cerrar_conexion();
 	}
+
 
 	     
 	

@@ -16,7 +16,7 @@ public:
         cin >> nit;
 
         if (nit != "C/F" && !validarNIT(nit)) {
-            cout << "NIT inválido.\n";
+            cout << "NIT invÃ¡lido.\n";
             return;
         }
 
@@ -43,16 +43,30 @@ public:
                 nombre_completo = nombre + " " + apellidos;
 
                 cout << "Ingrese direccion: ";
-                getline(cin, direccion); 
+                getline(cin, direccion);  // Solo se usa para la factura
 
                 cout << "Ingrese telefono: ";
                 string telefono;
                 getline(cin, telefono);
 
+                cout << "Ingrese correo electrónico: ";
+                string correo;
+                getline(cin, correo);
+
+                cout << "Ingrese genero (M=1/F=0): ";
+                int genero;
+                cin >> genero;
+                cin.ignore();
+
+                string insert_cliente = "INSERT INTO cliente(nit, nombres, apellidos, telefono, correo_electronico, genero, fecha_ingreso) VALUES ('" +
+                    nit + "', '" + nombre + "', '" + apellidos + "', '" + telefono + "', '" + correo + "', " + to_string(genero) + ", CURRENT_DATE)";
+
+
+
                 
-                string insert_cliente = "INSERT INTO cliente(nit, nombres, apellidos, telefono) VALUES ('" +
-                    nit + "', '" + nombre + "', '" + apellidos + "', '" + telefono + "')";
-                if (mysql_query(con, insert_cliente.c_str()) != 0) {
+            
+
+               if (mysql_query(con, insert_cliente.c_str()) != 0) {
                     cout << "Error al insertar cliente: " << mysql_error(con) << endl;
                     cn.cerrar_conexion();
                     return;
@@ -63,7 +77,7 @@ public:
         string fecha;
         cout << "Ingrese fecha (YYYY-MM-DD): ";
         cin >> fecha;
-        string serie = "A";  
+        string serie = "A";
         int no_factura = 1;
         string query_max_factura = "SELECT MAX(num_factura) FROM ventas WHERE serie = '" + serie + "'";
         if (mysql_query(con, query_max_factura.c_str()) == 0) {
@@ -81,8 +95,9 @@ public:
             if (row) id_cliente = stoi(row[0]);
         }
 
-        string insert_venta = "INSERT INTO ventas(id_cliente, fecha_ingreso, num_factura, serie) VALUES (" +
-            to_string(id_cliente) + ", '" + fecha + "', " + to_string(no_factura) + ", '" + serie + "')";
+        string insert_venta = "INSERT INTO ventas(id_cliente, fecha_factura, fecha_ingreso, num_factura, serie) VALUES (" +
+            to_string(id_cliente) + ", CURRENT_DATE, '" + fecha + "', " + to_string(no_factura) + ", '" + serie + "')";
+
         mysql_query(con, insert_venta.c_str());
         int id_venta = (int)mysql_insert_id(con);
 
@@ -93,7 +108,7 @@ public:
             int id_producto, cantidad;
             cout << "Ingrese ID del producto: ";
             cin >> id_producto;
-            
+
             ConexionBD cn;
             cn.abrir_conexion();
             if (cn.getConector()) {
@@ -143,7 +158,7 @@ public:
                 continue;
             }
 
-            cout << "¿Desea ingresar otro producto? (s/n): ";
+            cout << "Â¿Desea ingresar otro producto? (s/n): ";
             cin >> opcion;
         }
 
@@ -176,7 +191,7 @@ public:
 
         string consulta =
             "SELECT v.id_venta, v.fecha_ingreso, v.num_factura, v.serie, c.nit, c.nombres, c.apellidos "
-            "FROM ventas v INNER JOIN cliente c ON v.id_cliente = c.id_cliente WHERE v.anulada = 0;";
+            "FROM ventas v INNER JOIN cliente c ON v.id_cliente = c.id_cliente;";
 
 
         if (mysql_query(con, consulta.c_str()) == 0) {
@@ -207,7 +222,7 @@ public:
         cn.abrir_conexion();
         MYSQL* con = cn.getConector();
 
-        
+
         string consulta = "SELECT anulada FROM ventas WHERE id_venta = " + to_string(id_venta);
         if (mysql_query(con, consulta.c_str()) != 0) {
             cerr << "Error al buscar la venta: " << mysql_error(con) << endl;
@@ -266,7 +281,7 @@ public:
 
         cn.cerrar_conexion();
     }
-   
+
 
 
 private:
