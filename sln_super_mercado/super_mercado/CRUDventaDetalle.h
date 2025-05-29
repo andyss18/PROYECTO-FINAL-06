@@ -94,9 +94,13 @@ public:
             row = mysql_fetch_row(res);
             if (row) id_cliente = stoi(row[0]);
         }
+        int id_empleado;
+        cout << "Ingrese ID del empleado que atiende: ";
+        cin >> id_empleado;
 
-        string insert_venta = "INSERT INTO ventas(id_cliente, fecha_factura, fecha_ingreso, num_factura, serie) VALUES (" +
-            to_string(id_cliente) + ", CURRENT_DATE, '" + fecha + "', " + to_string(no_factura) + ", '" + serie + "')";
+        string insert_venta = "INSERT INTO ventas(id_cliente, id_empleado, fecha_factura, fecha_ingreso, num_factura, serie) VALUES (" +
+            to_string(id_cliente) + ", " + to_string(id_empleado) + ", CURRENT_DATE, '" + fecha + "', " + to_string(no_factura) + ", '" + serie + "')";
+
 
         mysql_query(con, insert_venta.c_str());
         int id_venta = (int)mysql_insert_id(con);
